@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html class="h-full" lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>Lombok Clima-Farm • Smart Farming</title>
+  
+  <!-- Preconnect & Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <style>
+    @layer base {
+      html, body { width: 100%; min-height: 100%; margin: 0; padding: 0; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    body { min-height: max(884px, 100dvh); }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; vertical-align: middle; line-height: 1;
+    }
+    .material-symbols-outlined.fill-1 { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    
+    /* Tab transition */
+    .tab-content { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .tab-content.active { display: flex; opacity: 1; transform: translateY(0); }
+    
+    /* Custom switch toggle */
+    .switch-toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch-toggle input { opacity: 0; width: 0; height: 0; }
+    .slider-toggle { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #bfc9c1; transition: .3s; border-radius: 24px; }
+    .slider-toggle:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+    input:checked + .slider-toggle { background-color: #0f5238; }
+    input:checked + .slider-toggle:before { transform: translateX(20px); }
+  </style>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container": "#efeee7", "on-primary-fixed-variant": "#0e5138", "inverse-primary": "#95d4b3", "outline": "#707973", "tertiary": "#653f1f", "on-tertiary-fixed": "#2f1400", "surface-container-lowest": "#ffffff", "secondary": "#3f6653", "on-tertiary-fixed-variant": "#643e1f", "outline-variant": "#bfc9c1", "on-error-container": "#93000a", "primary-fixed-dim": "#95d4b3", "error-container": "#ffdad6", "on-surface": "#1b1c18", "on-background": "#1b1c18", "tertiary-fixed": "#ffdcc4", "surface": "#fbf9f2", "primary": "#0f5238", "on-primary-container": "#a8e7c5", "surface-variant": "#e3e3dc", "on-tertiary-container": "#ffd1b1", "tertiary-fixed-dim": "#f3bb92", "background": "#fbf9f2", "surface-container-low": "#f5f4ed", "on-error": "#ffffff", "on-secondary-fixed": "#002114", "inverse-surface": "#30312c", "surface-container-high": "#e9e8e1", "on-tertiary": "#ffffff", "error": "#ba1a1a", "primary-container": "#2d6a4f", "on-secondary": "#ffffff", "surface-bright": "#fbf9f2", "inverse-on-surface": "#f2f1ea", "on-primary": "#ffffff", "tertiary-container": "#805634", "secondary-fixed-dim": "#a5d0b9", "on-secondary-fixed-variant": "#274e3d", "primary-fixed": "#b1f0ce", "on-primary-fixed": "#002114", "surface-container-highest": "#e3e3dc", "surface-tint": "#2c694e", "secondary-container": "#beead1", "secondary-fixed": "#c1ecd4", "on-surface-variant": "#404943", "on-secondary-container": "#436b58", "surface-dim": "#dbdad3"
+          },
+          spacing: { "space-md": "1rem", "space-xl": "2.25rem", "margin": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter": "1rem" },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"], "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"], "headline-xl-mobile": ["Plus Jakarta Sans", "sans-serif"], "headline-md": ["Plus Jakarta Sans", "sans-serif"], "body-sm": ["Inter", "sans-serif"], "label-sm": ["Plus Jakarta Sans", "sans-serif"], "headline-xl": ["Plus Jakarta Sans", "sans-serif"], "label-md": ["Plus Jakarta Sans", "sans-serif"], "body-lg": ["Inter", "sans-serif"], "label-lg": ["Plus Jakarta Sans", "sans-serif"], "body-md": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "headline-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }], "headline-lg-mobile": ["20px", { lineHeight: "28px", fontWeight: "700" }], "headline-xl-mobile": ["26px", { lineHeight: "34px", fontWeight: "800" }], "headline-md": ["18px", { lineHeight: "24px", fontWeight: "700" }], "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "700" }], "headline-xl": ["32px", { lineHeight: "40px", fontWeight: "800" }], "label-md": ["13px", { lineHeight: "18px", fontWeight: "600" }], "body-lg": ["17px", { lineHeight: "26px", fontWeight: "500" }], "label-lg": ["15px", { lineHeight: "20px", fontWeight: "700" }], "body-md": ["15px", { lineHeight: "22px", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-secondary-container selection:text-on-secondary-container">
+
+  <!-- Desktop Presentation Outer Shell -->
+  <div class="w-full flex-1 flex justify-center bg-surface-container/60 min-h-screen">
+    
+    <!-- Mobile Screen Frame Constraint -->
+    <div id="app-container" class="w-full max-w-md bg-surface min-h-screen relative flex flex-col shadow-2xl overflow-x-hidden">
+
+      <!-- =============================================================== -->
+      <!-- SCREEN 1: SPLASH SCREEN -->
+      <!-- =============================================================== -->
+      <section id="screen-splash" class="flex-1 flex flex-col relative w-full pt-safe pb-safe bg-surface px-margin z-[100] transition-opacity duration-500">
+        <div class="flex flex-col w-full relative overflow-hidden select-none pb-8 flex-1 justify-between">
+          <!-- Background Blur -->
+          <div class="absolute inset-0 pointer-events-none z-0">
+            <div class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-secondary-container/15 blur-3xl"></div>
+            <div class="absolute top-1/2 -right-24 w-96 h-96 rounded-full bg-primary-fixed/20 blur-3xl"></div>
+            <div class="absolute bottom-10 left-1/4 w-72 h-72 rounded-full bg-tertiary-fixed/20 blur-2xl"></div>
+            <svg class="w-full h-full opacity-10 object-cover" fill="none" viewbox="0 0 400 800" xmlns="http://www.w3.org/2000/svg">
+              <path d="M-50 180C50 160 120 220 200 200C280 180 340 120 450 150" stroke="#0f5238" stroke-dasharray="6 8" stroke-width="2"></path>
+              <path d="M-20 290C60 270 140 330 220 310C300 290 360 240 430 270" stroke="#0f5238" stroke-width="1.5"></path>
+              <path d="M-60 410C40 380 130 460 210 430C290 400 350 360 460 390" stroke="#0f5238" stroke-dasharray="4 6" stroke-width="2"></path>
+            </svg>
+          </div>
+
+          <div class="relative z-10 flex flex-col items-center justify-between min-h-[640px] py-4 flex-1">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+              <span class="w-2 h-2 rounded-full bg-primary -ml-3"></span>
+              <span class="font-label-sm text-label-sm text-secondary tracking-wide uppercase">Versi 2.4 • Berdaya Bersama Petani Lombok</span>
+            </div>
+
+            <div class="flex flex-col items-center text-center my-auto px-4 w-full max-w-sm">
+              <div class="relative mb-6">
+                <div class="absolute -inset-4 bg-gradient-to-tr from-secondary-container/60 via-primary-fixed/40 to-tertiary-fixed/30 rounded-full blur-xl opacity-80 animate-pulse"></div>
+                <div class="relative flex items-center justify-center w-28 h-28 rounded-full bg-surface-container-lowest shadow-xl ring-4 ring-secondary-container/40 p-3">
+                  <img alt="Lombok Clima-Farm Logo" class="w-full h-full object-contain drop-shadow" src="https://lh3.googleusercontent.com/aida/ALJJyrDEj4iPc4VoZL0O-kH54yC_OoxWwCSo21-RWXAYvWWwwHuWR_odnHvM2aGuNhjnNRCvc0YrKdvK15ijB3u0NCAMGOR0weaiGJIB5RE8lW-Q1c7q54kGqV1C8juh8leVMd3uPCWt-7zp54_yoUKCGy0QPQcyl_MjuGAqNZ-QXk13vOyTfQxookRuzRaljewINC_Ak2QbAgVudt3BsQPrr6Dv6EyzAZGWueeeT1_CEY6PtA"/>
+                </div>
+                <div class="absolute -bottom-2 -right-1 bg-primary text-on-primary rounded-full p-1.5 shadow-md flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[18px]">wb_sunny</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 mb-1.5">
+                <h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface tracking-tight uppercase">Lombok Clima<span class="text-primary">-Farm</span></h1>
+                <span class="material-symbols-outlined text-primary text-[22px] animate-bounce fill-1">eco</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant font-medium tracking-wide">Smart Farming, Better Future</p>
+              
+              <!-- Telemetry -->
+              <div class="grid grid-cols-3 gap-2.5 w-full mt-7 pt-5 border-t border-outline-variant/30">
+                <div class="flex flex-col items-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-xl py-2 px-1.5 shadow-sm">
+                  <span class="material-symbols-outlined text-primary text-[20px] mb-0.5">landscape</span>
+                  <span class="font-label-sm text-label-sm text-secondary">Rinjani</span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-semibold">Mikro 24°C</span>
+                </div>
+                <div class="flex flex-col items-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-xl py-2 px-1.5 shadow-sm">
+                  <span class="material-symbols-outlined text-secondary text-[20px] mb-0.5">water_drop</span>
+                  <span class="font-label-sm text-label-sm text-secondary">Kelembaban</span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-semibold">78% Optimal</span>
+                </div>
+                <div class="flex flex-col items-center bg-surface-container-lowest/80 backdrop-blur-sm rounded-xl py-2 px-1.5 shadow-sm">
+                  <span class="material-symbols-outlined text-tertiary text-[20px] mb-0.5">sensors</span>
+                  <span class="font-label-sm text-label-sm text-secondary">Sensor IoT</span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-semibold">142 Aktif</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full max-w-sm flex flex-col gap-4 mt-auto">
+              <div class="flex flex-col gap-2 bg-surface-container-lowest/90 backdrop-blur-md p-3.5 rounded-xl shadow-md">
+                <div class="flex justify-between items-center text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[18px] animate-spin">sync</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant font-medium" id="sync-status">Menghubungkan satelit BMKG NTB...</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-primary font-bold" id="sync-percent">45%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container overflow-hidden p-0.5">
+                  <div class="h-full rounded-full bg-gradient-to-r from-tertiary-container via-primary to-secondary transition-all duration-300 ease-out" id="progress-indicator" style="width: 45%;"></div>
+                </div>
+              </div>
+              <button class="w-full h-13 py-3.5 px-6 rounded-lg bg-primary hover:bg-on-primary-fixed-variant active:scale-[0.98] text-on-primary flex items-center justify-center gap-2 shadow-lg transition-all duration-200" id="btn-enter" onclick="enterApp()">
+                <span class="font-label-lg text-label-lg font-bold" id="btn-enter-text">Mulai Masuk ke Lahan</span>
+                <span class="material-symbols-outlined text-[20px]" id="btn-enter-icon">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- MAIN APP CONTAINER -->
+      <!-- =============================================================== -->
+      <div id="screen-main-app" class="hidden flex-1 flex flex-col min-h-screen relative w-full bg-surface">
+
+        <!-- Universal App Fixed Header -->
+        <header class="fixed top-0 max-w-md w-full z-40 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(27,67,50,0.04)] border-b border-surface-container-high/60">
+          <div class="flex items-center justify-between px-margin h-16">
+            <div class="flex items-center gap-space-sm cursor-pointer" onclick="switchNavTab('beranda')">
+              <img alt="Lombok Clima-Farm Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrDEj4iPc4VoZL0O-kH54yC_OoxWwCSo21-RWXAYvWWwwHuWR_odnHvM2aGuNhjnNRCvc0YrKdvK15ijB3u0NCAMGOR0weaiGJIB5RE8lW-Q1c7q54kGqV1C8juh8leVMd3uPCWt-7zp54_yoUKCGy0QPQcyl_MjuGAqNZ-QXk13vOyTfQxookRuzRaljewINC_Ak2QbAgVudt3BsQPrr6Dv6EyzAZGWueeeT1_CEY6PtA"/>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px] text-primary">location_on</span>
+                  <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Lombok Tengah, NTB</span>
+                </div>
+                <span class="font-headline-md text-headline-md text-on-surface leading-tight tracking-tight" id="header-page-title">Beranda</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-space-xs">
+              <button aria-label="Notifikasi" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors relative" onclick="showToast('Tidak ada notifikasi baru')">
+                <span class="material-symbols-outlined text-[22px]">notifications</span>
+                <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span>
+              </button>
+              <button aria-label="Profil Petani" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-90 active:scale-95 transition-all shadow-sm ring-2 ring-primary/20" onclick="switchNavTab('profil')">
+                <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Dynamic View Area -->
+        <main class="flex-1 flex flex-col relative w-full pt-16 pb-24 px-margin overflow-y-auto">
+
+          <!-- =========================================================== -->
+          <!-- TAB 1: BERANDA CERDAS PETANI -->
+          <!-- =========================================================== -->
+          <div id="tab-beranda" class="tab-content active flex-col w-full pb-6 space-y-space-md mt-4">
+            
+            <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_rgba(27,67,50,0.04),0_8px_20px_rgba(27,67,50,0.03)] flex flex-col gap-space-sm relative overflow-hidden">
+              <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-secondary-container/30 rounded-full blur-2xl pointer-events-none"></div>
+              <div class="flex items-start justify-between">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Subak Pujut • Lombok Tengah</span>
+                  <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight mt-0.5">
+                    Selamat Pagi, <span class="text-primary font-extrabold">Pak Amaq Rusli</span>
+                  </h1>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 text-on-secondary-container shadow-sm cursor-pointer" onclick="switchNavTab('rekomendasi-cuaca')">
+                  <span class="material-symbols-outlined text-[24px]">wb_sunny</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-space-sm bg-surface-container-low rounded-lg p-space-sm cursor-pointer hover:bg-surface-container" onclick="switchNavTab('rekomendasi-cuaca')">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <span class="material-symbols-outlined text-primary text-[20px] shrink-0 fill-1">partly_cloudy_day</span>
+                  <span class="font-label-md text-label-md text-on-surface truncate">Cerah Berawan 29°C</span>
+                </div>
+                <span class="w-1 h-1 rounded-full bg-outline-variant shrink-0"></span>
+                <div class="flex items-center gap-1 text-on-surface-variant min-w-0">
+                  <span class="material-symbols-outlined text-[16px] text-secondary shrink-0">water_drop</span>
+                  <span class="font-body-sm text-body-sm truncate">Lembap 78%</span>
+                </div>
+                <span class="w-1 h-1 rounded-full bg-outline-variant shrink-0"></span>
+                <div class="flex items-center gap-1 text-on-surface-variant min-w-0">
+                  <span class="material-symbols-outlined text-[16px] text-secondary shrink-0">air</span>
+                  <span class="font-body-sm text-body-sm truncate">8 km/j</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="bg-surface-container-low rounded-xl p-space-md shadow-[0_2px_10px_rgba(27,67,50,0.05)] relative overflow-hidden">
+              <div class="flex items-center justify-between gap-space-sm mb-space-xs">
+                <div class="inline-flex items-center gap-1.5 bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full">
+                  <span class="material-symbols-outlined text-[16px] fill-1">timer</span>
+                  <span class="font-label-sm text-label-sm">Waktu Kerja Terbaik</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Hari Ini (WITA)</span>
+              </div>
+              <div class="mt-2">
+                <p class="font-label-lg text-label-lg text-on-surface font-bold leading-tight">Waktu Ideal Menyemprot Pupuk Hayati:</p>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span class="font-headline-xl-mobile text-headline-xl-mobile text-primary tracking-tight font-extrabold">07.00 - 09.30</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">sebelum angin kencang</span>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Peluang hujan ringan petang nanti. Selesaikan pemupukan pagi ini.</p>
+              </div>
+            </section>
+
+            <section class="flex flex-col gap-space-xs">
+              <div class="flex items-center justify-between px-0.5">
+                <h2 class="font-headline-md text-headline-md text-on-surface">Aksi Cepat Cerdas</h2>
+                <span class="font-label-sm text-label-sm text-primary font-semibold">4 Fitur Aktif</span>
+              </div>
+              <div class="grid grid-cols-2 gap-space-sm mt-1">
+                <button class="w-full bg-surface-container-lowest rounded-xl p-space-md flex flex-col items-start gap-2 shadow-[0_2px_8px_rgba(27,67,50,0.04)] active:scale-[0.98] transition-all text-left" onclick="switchNavTab('lahan-dan-tanah')">
+                  <div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[28px] fill-1">dew_point</span>
+                  </div>
+                  <div>
+                    <span class="font-label-lg text-label-lg text-on-surface block">Cek Lahan</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Sensor pH & NPK</span>
+                  </div>
+                </button>
+                <button class="w-full bg-surface-container-lowest rounded-xl p-space-md flex flex-col items-start gap-2 shadow-[0_2px_8px_rgba(27,67,50,0.04)] active:scale-[0.98] transition-all text-left" onclick="openModal('modal-fertilizer')">
+                  <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-[28px] fill-1">calculate</span>
+                  </div>
+                  <div>
+                    <span class="font-label-lg text-label-lg text-on-surface block">Kalkulator Pupuk</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Hitung takaran</span>
+                  </div>
+                </button>
+                <button class="w-full bg-surface-container-lowest rounded-xl p-space-md flex flex-col items-start gap-2 shadow-[0_2px_8px_rgba(27,67,50,0.04)] active:scale-[0.98] transition-all text-left" onclick="openModal('modal-pest')">
+                  <div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+                    <span class="material-symbols-outlined text-[28px] fill-1">photo_camera</span>
+                  </div>
+                  <div>
+                    <span class="font-label-lg text-label-lg text-on-surface block">Pindai Hama</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Foto daun & diagnosa</span>
+                  </div>
+                </button>
+                <button class="w-full bg-surface-container-lowest rounded-xl p-space-md flex flex-col items-start gap-2 shadow-[0_2px_8px_rgba(27,67,50,0.04)] active:scale-[0.98] transition-all text-left" onclick="openModal('modal-expense')">
+                  <div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+                    <span class="material-symbols-outlined text-[28px] fill-1">receipt_long</span>
+                  </div>
+                  <div>
+                    <span class="font-label-lg text-label-lg text-on-surface block">Catat Biaya</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Pengeluaran & upah</span>
+                  </div>
+                </button>
+              </div>
+            </section>
+
+            <section class="bg-primary text-on-primary rounded-xl p-space-md shadow-[0_4px_14px_rgba(45,106,79,0.2)] flex flex-col gap-space-sm">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-on-primary/15 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[18px] text-on-primary">psychology_alt</span>
+                </span>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container">Saran Agronomis Subak</span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h3 class="font-label-lg text-label-lg text-on-primary font-bold">Rekomendasi Pemupukan Susulan Petak A1</h3>
+                <p class="font-body-md text-body-md text-on-primary/90 leading-relaxed">
+                  Gunakan <span class="font-bold underline decoration-on-primary-container decoration-2 underline-offset-2">25 kg NPK Phonska</span> ditambah <span class="font-bold underline decoration-on-primary-container decoration-2 underline-offset-2">10 kg Urea</span> sebelum hujan sore.
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <div class="flex items-center gap-1.5 text-on-primary-container">
+                  <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                  <span class="font-label-sm text-label-sm">Hemat biaya pupuk 15%</span>
+                </div>
+                <button class="bg-surface-container-lowest text-primary font-label-md text-label-md px-3 py-1.5 rounded-lg active:scale-95 transition-transform flex items-center gap-1" onclick="showToast('Rekomendasi diterapkan pada rencana tani.')">
+                  <span>Terapkan</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="bg-surface-container rounded-xl p-space-md flex items-center justify-between gap-space-sm cursor-pointer hover:bg-surface-container-high transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined text-[22px]">forum</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-bold">Obrolan Subak Pujut</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Pak Ketut & 4 petani baru kirim kabar</span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-outline text-[20px]">chevron_right</span>
+            </section>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- TAB 2: MANAJEMEN LAHAN & TANAH -->
+          <!-- =========================================================== -->
+          <div id="tab-lahan-dan-tanah" class="tab-content flex-col w-full pb-6 space-y-space-md mt-4">
+            
+            <div class="w-full bg-surface-container-high p-1 rounded-xl flex items-center justify-between gap-1 shadow-sm">
+              <button class="flex-1 py-2.5 px-3 rounded-lg bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center gap-1.5 transition-all duration-200" id="btn-petak-a" onclick="switchField('a')">
+                <span class="material-symbols-outlined text-[18px]">nature</span>
+                <div class="flex flex-col text-left">
+                  <span class="font-label-md text-label-md leading-tight">Petak A - Lingsar</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">0.5 Ha • Padi Organik</span>
+                </div>
+              </button>
+              <button class="flex-1 py-2.5 px-3 rounded-lg text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5 transition-all duration-200" id="btn-petak-b" onclick="switchField('b')">
+                <span class="material-symbols-outlined text-[18px]">terrain</span>
+                <div class="flex flex-col text-left">
+                  <span class="font-label-md text-label-md leading-tight">Petak B - Sembalun</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">0.3 Ha • Bawang Putih</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="inline-flex w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                    <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Pemantauan IoT Real-Time</span>
+                  </div>
+                  <h2 class="font-headline-md text-headline-md text-on-surface" id="field-title">Kondisi Kesuburan Tanah (Petak A)</h2>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Update 12 menit lalu via Sensor Lorawan #04</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px] fill-1">verified</span> Prima
+                </span>
+              </div>
+
+              <div class="mt-4 flex items-center gap-4 bg-surface-container-low rounded-xl p-3">
+                <div class="relative w-20 h-20 shrink-0 flex items-center justify-center">
+                  <svg class="w-20 h-20 -rotate-90" viewbox="0 0 72 72">
+                    <circle class="stroke-surface-container-highest" cx="36" cy="36" fill="none" r="30" stroke-width="7"></circle>
+                    <circle class="stroke-primary transition-all duration-700 ease-out" cx="36" cy="36" fill="none" id="score-ring" r="30" stroke-dasharray="188.5" stroke-dashoffset="26.4" stroke-linecap="round" stroke-width="7"></circle>
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span class="font-headline-xl-mobile text-headline-xl-mobile text-primary font-bold leading-none" id="score-val">86</span>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">/100</span>
+                  </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                  <span class="font-label-lg text-label-lg text-primary">Tanah Siap Tanam</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-snug">Kapasitas sangga kation tinggi & aerasi akar sangat sehat.</p>
+                  <div class="mt-1.5 flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary">
+                      <span class="material-symbols-outlined text-[14px]">water_drop</span> <span id="val-moist-badge">68%</span> Lengas
+                    </span>
+                    <span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+                      <span class="material-symbols-outlined text-[14px]">compost</span> 2.8% Organik
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5 mt-3">
+                <div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[16px] text-primary">science</span> pH Tanah
+                    </span>
+                    <span class="font-label-sm text-label-sm text-primary px-1.5 py-0.5 rounded bg-secondary-container">Netral</span>
+                  </div>
+                  <div class="mt-2 flex items-baseline gap-1.5">
+                    <span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="val-ph">6.4</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Ideal (6.0 - 7.0)</span>
+                  </div>
+                  <div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden flex">
+                    <div class="w-[64%] bg-primary h-full rounded-full transition-all" id="bar-ph"></div>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[16px] text-secondary">humidity_mid</span> Lengas
+                    </span>
+                    <span class="font-label-sm text-label-sm text-primary px-1.5 py-0.5 rounded bg-secondary-container">Optimal</span>
+                  </div>
+                  <div class="mt-2 flex items-baseline gap-1.5">
+                    <span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="val-moist">68%</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">Kapasitas Lapang</span>
+                  </div>
+                  <div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden flex">
+                    <div class="w-[68%] bg-secondary h-full rounded-full transition-all" id="bar-moist"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[20px]">psychology_alt</span>
+                </div>
+                <div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">Rekomendasi Tanah</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Panduan spesifik kondisi hara</p>
+                </div>
+              </div>
+              <div class="space-y-2.5">
+                <div class="bg-surface-container-low rounded-xl p-3 flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shrink-0 flex items-center justify-center mt-0.5">
+                    <span class="material-symbols-outlined text-[20px]">compost</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-md text-label-md text-tertiary font-bold">Kompos Jerami</span>
+                      <span class="font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">Prioritas 1</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface mt-1">Tambahkan <strong>50 kg kompos</strong> untuk meningkatkan pori tanah.</p>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low rounded-xl p-3 flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-full bg-error-container text-on-error-container shrink-0 flex items-center justify-center mt-0.5">
+                    <span class="material-symbols-outlined text-[20px]">waves</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-md text-label-md text-error font-bold">Bersihkan Drainase</span>
+                      <span class="font-label-sm text-label-sm bg-error-container text-on-error-container px-2 py-0.5 rounded">Penting</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface mt-1">Drainase selatan perlu dibersihkan menghindari genangan.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="w-full pt-2 flex flex-col gap-2.5">
+              <button class="w-full py-3.5 px-4 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-on-primary-fixed-variant active:scale-[0.98] transition-all flex items-center justify-center gap-2" onclick="showToast('Memulai panduan uji sampel tanah...', 'biotech')">
+                <span class="material-symbols-outlined text-[20px]">biotech</span> Uji Sampel Tanah Baru
+              </button>
+            </div>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- TAB 3: REKOMENDASI CUACA -->
+          <!-- =========================================================== -->
+          <div id="tab-rekomendasi-cuaca" class="tab-content flex-col w-full pb-6 space-y-space-md mt-4">
+            
+            <section class="bg-primary text-on-primary rounded-xl p-space-md shadow-md relative overflow-hidden">
+              <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-secondary-container/20 rounded-full blur-2xl pointer-events-none"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="inline-flex items-center gap-1.5 bg-on-primary/15 text-on-primary-container px-2.5 py-1 rounded-full font-label-sm text-label-sm">
+                  <span class="w-2 h-2 rounded-full bg-secondary-fixed animate-ping"></span>
+                  BMKG Stasiun BIL
+                </span>
+                <span class="font-label-sm text-label-sm text-primary-fixed-dim">Update Tiap 15 Menit</span>
+              </div>
+              <div class="flex items-start justify-between mt-2">
+                <div>
+                  <h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tight">Pujut, Lombok Tengah</h2>
+                  <p class="font-body-sm text-body-sm text-primary-fixed-dim mt-0.5">Ketinggian 85 mdpl • Zona Agroklimat Subak</p>
+                  <div class="flex items-baseline gap-2 mt-2">
+                    <span class="text-4xl font-extrabold text-on-primary">29°C</span>
+                    <span class="font-body-sm text-body-sm text-primary-fixed-dim">Terasa 32°C</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="material-symbols-outlined text-5xl text-on-primary-container fill-1 animate-pulse">partly_cloudy_day</span>
+                  <span class="font-label-sm text-label-sm font-semibold mt-1">Cerah Berawan</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-4 gap-2 mt-4 pt-3 border-t border-on-primary/20 text-center">
+                <div class="bg-primary-container/40 p-2 rounded-lg">
+                  <span class="font-label-sm text-label-sm text-primary-fixed-dim block text-[10px]">LEMBAP</span>
+                  <span class="font-label-md text-label-md font-bold block mt-0.5">78%</span>
+                </div>
+                <div class="bg-primary-container/40 p-2 rounded-lg">
+                  <span class="font-label-sm text-label-sm text-primary-fixed-dim block text-[10px]">ANGIN</span>
+                  <span class="font-label-md text-label-md font-bold block mt-0.5">8 km/j</span>
+                </div>
+                <div class="bg-primary-container/40 p-2 rounded-lg">
+                  <span class="font-label-sm text-label-sm text-primary-fixed-dim block text-[10px]">HUJAN</span>
+                  <span class="font-label-md text-label-md font-bold block mt-0.5">4.2 mm</span>
+                </div>
+                <div class="bg-primary-container/40 p-2 rounded-lg">
+                  <span class="font-label-sm text-label-sm text-primary-fixed-dim block text-[10px]">UV</span>
+                  <span class="font-label-md text-label-md font-bold block mt-0.5">Sedang</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border-l-4 border-tertiary">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-tertiary text-[22px]">calendar_today</span>
+                  <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Musim Sasak (Wariga)</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">Musim Kertawana • Menuju Panen</p>
+                  </div>
+                </div>
+                <span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">Adat Sasak</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface leading-relaxed mt-2">
+                Menurut hitungan bintang <em>Rowot Sasak</em>, angin timuran mulai stabil. Fase penyiangan kedua dan pengairan dangkal sangat dianjurkan.
+              </p>
+              <div class="mt-3 p-2.5 bg-surface-container-low rounded-lg flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">water_ph</span>
+                  <span class="font-label-sm text-label-sm text-on-surface">Jadwal Gilir Air Saluran 3B:</span>
+                </div>
+                <span class="font-label-sm text-label-sm font-bold text-primary">Malam Ini 19.00 WITA</span>
+              </div>
+            </section>
+
+            <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">Jendela Semprot Hari Ini</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Prakiraan kecocokan per 3 jam</p>
+                </div>
+                <span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+              </div>
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <div class="bg-secondary-container/40 p-2.5 rounded-xl border border-secondary-container flex flex-col items-center">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">07.00</span>
+                  <span class="material-symbols-outlined text-primary text-[24px] my-1 fill-1">wb_sunny</span>
+                  <span class="font-label-sm text-label-sm text-primary mt-1 px-1.5 py-0.5 rounded bg-secondary-container text-[10px]">Sangat Ideal</span>
+                </div>
+                <div class="bg-secondary-container/30 p-2.5 rounded-xl border border-secondary-container/40 flex flex-col items-center">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">10.00</span>
+                  <span class="material-symbols-outlined text-primary text-[24px] my-1">wb_cloudy</span>
+                  <span class="font-label-sm text-label-sm text-primary mt-1 px-1.5 py-0.5 rounded bg-secondary-container text-[10px]">Cukup Baik</span>
+                </div>
+                <div class="bg-surface-container-low p-2.5 rounded-xl flex flex-col items-center">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">13.00</span>
+                  <span class="material-symbols-outlined text-tertiary text-[24px] my-1">sunny</span>
+                  <span class="font-label-sm text-label-sm text-tertiary mt-1 px-1.5 py-0.5 rounded bg-tertiary-fixed text-[10px]">Terik Panas</span>
+                </div>
+                <div class="bg-error-container/30 p-2.5 rounded-xl border border-error-container flex flex-col items-center">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">16.30</span>
+                  <span class="material-symbols-outlined text-error text-[24px] my-1">rainy</span>
+                  <span class="font-label-sm text-label-sm text-error mt-1 px-1.5 py-0.5 rounded bg-error-container text-[10px]">Hujan</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- TAB 4: FINANSIAL TANI -->
+          <!-- =========================================================== -->
+          <div id="tab-finansial-tani" class="tab-content flex-col w-full pb-6 space-y-space-md mt-4">
+            
+            <div class="bg-secondary-container text-on-secondary-container rounded-xl p-space-md shadow-sm flex items-center justify-between">
+              <div class="flex items-center space-x-space-sm min-w-0">
+                <div class="w-10 h-10 rounded-full bg-surface-container-lowest/80 flex items-center justify-center shrink-0 text-primary">
+                  <span class="material-symbols-outlined text-[24px]">calendar_month</span>
+                </div>
+                <div class="min-w-0">
+                  <p class="font-label-sm text-label-sm uppercase tracking-wide opacity-80">Periode Aktif</p>
+                  <h2 class="font-headline-md text-headline-md truncate">Musim Tanam 1 (MT 1)</h2>
+                </div>
+              </div>
+              <span class="bg-primary text-on-primary font-label-sm text-label-sm px-2.5 py-1 rounded-full shrink-0">Berjalan</span>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md relative overflow-hidden">
+              <div class="flex items-start justify-between mb-space-sm">
+                <div>
+                  <span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px] text-primary">trending_up</span> Proyeksi Laba Bersih
+                  </span>
+                  <div class="flex items-baseline space-x-2 mt-1">
+                    <h1 class="font-headline-xl-mobile text-headline-xl-mobile text-primary tracking-tight font-extrabold">+Rp 13.750.000</h1>
+                  </div>
+                </div>
+                <div class="bg-primary-fixed text-on-primary-fixed px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+                  <span class="material-symbols-outlined text-[16px]">price_check</span>
+                  <span class="font-label-md text-label-md font-bold">ROI +157%</span>
+                </div>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Kondisi sangat sehat. Hasil panen diperkirakan menutup modal dalam 42 hari.</p>
+              
+              <div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <div class="flex items-center space-x-1 text-on-surface-variant mb-1">
+                    <span class="material-symbols-outlined text-[15px] text-secondary">payments</span>
+                    <span class="font-label-sm text-label-sm">Estimasi Omzet</span>
+                  </div>
+                  <p class="font-headline-md text-headline-md text-on-surface font-bold">Rp 22.500.000</p>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] block mt-0.5">4.5 ton @ Rp 5.000</span>
+                </div>
+                <div class="bg-surface-container-low p-space-sm rounded-lg">
+                  <div class="flex items-center space-x-1 text-on-surface-variant mb-1">
+                    <span class="material-symbols-outlined text-[15px] text-tertiary">receipt_long</span>
+                    <span class="font-label-sm text-label-sm">Modal Terpakai</span>
+                  </div>
+                  <p class="font-headline-md text-headline-md text-tertiary font-bold">Rp 8.750.000</p>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] block mt-0.5">38.8% dari plafon</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center space-x-2">
+                  <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[18px]">calculate</span>
+                  </div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">Simulasi Fluktuasi Pasar</h3>
+                </div>
+                <span class="bg-surface-container px-2 py-0.5 rounded text-on-surface-variant font-label-sm text-label-sm">Stress Test</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">Geser harga gabah kering panen (GKP) untuk menguji ketahanan margin.</p>
+
+              <div class="bg-surface-container-low p-space-md rounded-xl space-y-space-md">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-md text-label-md text-on-surface">Harga Jual:</span>
+                  <span class="font-headline-md text-headline-md text-primary font-bold" id="price-display">Rp 5.000 /kg</span>
+                </div>
+                <div class="relative w-full">
+                  <input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" id="grain-slider" max="6500" min="3800" step="100" type="range" value="5000" oninput="updateSimulation()"/>
+                  <div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant mt-1">
+                    <span>Rp 3.800</span>
+                    <span>Rp 6.500</span>
+                  </div>
+                </div>
+                <div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between shadow-sm">
+                  <div>
+                    <span class="font-label-sm text-label-sm text-on-surface-variant block">Hasil Laba Bersih Simulasi</span>
+                    <span class="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-primary" id="simulated-profit">+Rp 13.750.000</span>
+                  </div>
+                  <div class="bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold flex items-center gap-1" id="simulated-status">
+                    <span class="material-symbols-outlined text-[14px]">verified_user</span> Aman
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-space-sm pt-space-xs">
+              <button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center space-x-2 shadow-md hover:bg-primary-container active:scale-[0.98] transition-all" onclick="openModal('modal-expense')">
+                <span class="material-symbols-outlined text-[22px]">add_circle</span>
+                <span>+ Catat Pengeluaran Baru</span>
+              </button>
+              <button class="w-full h-13 py-3 bg-surface-container-high text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center space-x-2 hover:bg-surface-variant active:scale-[0.98] transition-all" onclick="showToast('Unduhan disiapkan...', 'download')">
+                <span class="material-symbols-outlined text-secondary text-[20px]">description</span>
+                <span>Unduh Laporan Format KUR Bank</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- TAB 5: PROFIL PETANI & PENGATURAN -->
+          <!-- =========================================================== -->
+          <div id="tab-profil" class="tab-content flex-col w-full pb-6 space-y-space-md mt-4">
+            
+            <section class="relative w-full rounded-2xl bg-surface-container-lowest p-5 shadow-[0px_4px_20px_rgba(27,67,50,0.06)] overflow-hidden">
+              <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-secondary-container/40 blur-2xl pointer-events-none"></div>
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="relative mb-3 group">
+                  <div class="w-24 h-24 rounded-full p-1 bg-surface-container-highest shadow-inner">
+                    <img class="w-full h-full object-cover rounded-full ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJEUluwnQLZ4gvlOm8yucRZywM_1aaQ4XdoxswEkbUn2QXY39if4Hu73Q5RZu8cVqGIWM2C8lfwQjLDD2xHhOxXxdK14lGD4YTTOBXV7lNPjK7me8Rz9DI6OpzjcrwyHSM-O9Ua4owUXQyFqPckZ3VdPk30JUZIRS7j3PtGxldfPMKM9Lj1nXrlp8fTMfatDZkNf6LwQgLc9ozrDgeYbgysc6nddeLIZj1_zF8aGlX" alt="Amaq Rusli"/>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container mb-2.5 shadow-sm">
+                  <span class="material-symbols-outlined text-primary text-[14px]">verified_user</span>
+                  <span class="font-label-sm text-label-sm tracking-wide">Terverifikasi BPSB & Subak</span>
+                </div>
+                <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="profileNameDisplay">Amaq Rusli</h1>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="profileEmailDisplay">amaq.rusli@pertanian.id</p>
+                
+                <div class="mt-4 w-full flex items-center justify-center gap-2">
+                  <button class="w-full max-w-xs h-12 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(45,106,79,0.28)] active:scale-95 transition-all" onclick="openModal('modal-edit-profile')">
+                    <span class="material-symbols-outlined text-[18px]">edit</span> Edit Profil
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="w-full rounded-2xl bg-surface-container-lowest p-5 shadow-[0px_2px_8px_rgba(27,67,50,0.04)] space-y-4">
+              <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+                  <span class="material-symbols-outlined text-[20px]">tune</span>
+                </div>
+                <div>
+                  <h2 class="font-headline-md text-headline-md text-on-surface">Pengaturan Akun & Tani</h2>
+                </div>
+              </div>
+              <div class="space-y-1">
+                <!-- Setting: Unit -->
+                <div class="w-full p-3.5 rounded-xl bg-surface-container-low space-y-2">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                      <span class="material-symbols-outlined text-secondary text-[20px]">straighten</span>
+                      <span class="font-label-md text-label-md text-on-surface">Satuan Luas Lahan</span>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button class="py-1.5 px-3 rounded-lg text-center font-label-sm text-label-sm bg-primary text-on-primary shadow-sm" type="button">Hektar (ha)</button>
+                    <button class="py-1.5 px-3 rounded-lg text-center font-label-sm text-label-sm bg-surface text-on-surface border border-outline-variant/40" type="button">Are (100 m²)</button>
+                  </div>
+                </div>
+                <!-- Setting: Lang -->
+                <div class="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-surface-container-low transition-all">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface">
+                      <span class="material-symbols-outlined text-[18px]">language</span>
+                    </div>
+                    <div>
+                      <p class="font-label-md text-label-md text-on-surface">Bahasa Aplikasi</p>
+                    </div>
+                  </div>
+                  <select class="bg-surface-container font-label-sm text-label-sm text-primary px-3 py-1.5 rounded-lg focus:outline-none" onchange="showToast('Bahasa diperbarui')">
+                    <option value="id" selected>Indonesia</option>
+                    <option value="sasak">Sasak</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="w-full pt-1 pb-4">
+              <button class="w-full h-12 rounded-xl bg-error-container text-on-error-container font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" onclick="openModal('modal-logout')">
+                <span class="material-symbols-outlined text-[20px]">logout</span>
+                <span>Keluar dari Akun</span>
+              </button>
+            </section>
+          </div>
+
+        </main>
+
+        <!-- =============================================================== -->
+        <!-- UNIVERSAL BOTTOM NAVIGATION -->
+        <!-- =============================================================== -->
+        <nav class="fixed bottom-0 max-w-md w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(27,67,50,0.06)] border-t border-surface-container-high/60" id="bottom-navbar">
+          <div class="flex items-center justify-around h-16 px-space-xs max-w-md mx-auto">
+            <button id="nav-btn-beranda" class="flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 transition-colors text-primary active" onclick="switchNavTab('beranda')">
+              <div class="w-14 h-8 rounded-full flex items-center justify-center transition-colors bg-secondary-container text-on-secondary-container nav-pill">
+                <span class="material-symbols-outlined text-[22px]">dashboard</span>
+              </div>
+              <span class="font-label-sm text-label-sm">Beranda</span>
+            </button>
+            <button id="nav-btn-lahan-dan-tanah" class="flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" onclick="switchNavTab('lahan-dan-tanah')">
+              <div class="w-14 h-8 rounded-full flex items-center justify-center transition-colors nav-pill">
+                <span class="material-symbols-outlined text-[22px]">landscape</span>
+              </div>
+              <span class="font-label-sm text-label-sm">Lahan</span>
+            </button>
+            <button id="nav-btn-rekomendasi-cuaca" class="flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" onclick="switchNavTab('rekomendasi-cuaca')">
+              <div class="w-14 h-8 rounded-full flex items-center justify-center transition-colors nav-pill">
+                <span class="material-symbols-outlined text-[22px]">nest_eco_leaf</span>
+              </div>
+              <span class="font-label-sm text-label-sm">Cuaca</span>
+            </button>
+            <button id="nav-btn-finansial-tani" class="flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" onclick="switchNavTab('finansial-tani')">
+              <div class="w-14 h-8 rounded-full flex items-center justify-center transition-colors nav-pill">
+                <span class="material-symbols-outlined text-[22px]">payments</span>
+              </div>
+              <span class="font-label-sm text-label-sm">Finansial</span>
+            </button>
+            <button id="nav-btn-profil" class="flex-1 min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors hidden" onclick="switchNavTab('profil')">
+              <!-- Profil is usually hidden in bottom nav but accessible via header -->
+              <div class="w-14 h-8 rounded-full flex items-center justify-center transition-colors nav-pill">
+                <span class="material-symbols-outlined text-[22px]">person</span>
+              </div>
+              <span class="font-label-sm text-label-sm">Profil</span>
+            </button>
+          </div>
+        </nav>
+
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- MODALS & TOAST -->
+      <!-- =============================================================== -->
+      
+      <!-- Expense Modal -->
+      <div id="modal-expense" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl w-full max-w-md p-space-md shadow-2xl space-y-space-md border border-outline-variant/30">
+          <div class="flex items-center justify-between pb-2">
+            <h4 class="font-headline-md text-headline-md text-on-surface">Catat Pengeluaran Tani</h4>
+            <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center" onclick="closeModal('modal-expense')">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          <div class="space-y-space-sm">
+            <div>
+              <label class="font-label-sm text-label-sm block mb-1">Nominal Biaya (Rp)</label>
+              <input type="number" class="w-full h-12 bg-surface-container-low rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/40" placeholder="Contoh: 150000">
+            </div>
+            <div class="flex space-x-2 pt-2">
+              <button class="flex-1 h-12 rounded-lg bg-surface-container font-label-md text-label-md" onclick="closeModal('modal-expense')">Batal</button>
+              <button class="flex-1 h-12 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold" onclick="saveAction('modal-expense', 'Pengeluaran berhasil dicatat!')">Simpan Biaya</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fertilizer Modal -->
+      <div id="modal-fertilizer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl w-full max-w-md p-space-md shadow-2xl space-y-space-md border border-outline-variant/30">
+          <div class="flex items-center justify-between pb-2">
+            <h4 class="font-headline-md text-headline-md text-on-surface">Kalkulator Dosis Pupuk</h4>
+            <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center" onclick="closeModal('modal-fertilizer')">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          <div class="space-y-space-sm">
+            <div>
+              <label class="font-label-sm text-label-sm block mb-1">Luas Petak (Ha)</label>
+              <input type="number" class="w-full h-12 bg-surface-container-low rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/40" value="0.45">
+            </div>
+            <div class="bg-surface-container-low p-3.5 rounded-xl border border-secondary-container mt-2">
+              <span class="font-label-sm text-label-sm text-primary font-bold uppercase block">Rekomendasi Dosis:</span>
+              <div class="grid grid-cols-3 gap-2 text-center pt-2">
+                <div class="bg-surface-container-lowest p-2 rounded-lg shadow-sm">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant block">Urea</span><span class="font-headline-md text-headline-md text-primary font-bold">45 kg</span>
+                </div>
+                <div class="bg-surface-container-lowest p-2 rounded-lg shadow-sm">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant block">NPK</span><span class="font-headline-md text-headline-md text-primary font-bold">112 kg</span>
+                </div>
+              </div>
+            </div>
+            <button class="w-full h-12 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold mt-2" onclick="saveAction('modal-fertilizer', 'Rencana pemupukan tersimpan.')">Simpan ke Rencana</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pest Scanner Modal -->
+      <div id="modal-pest" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl w-full max-w-md p-space-md shadow-2xl space-y-space-md border border-outline-variant/30">
+          <div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+            <h4 class="font-headline-md text-headline-md text-on-surface">Pindai Hama AI</h4>
+            <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center" onclick="closeModal('modal-pest')">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          <div class="relative w-full h-48 bg-slate-900 rounded-xl overflow-hidden flex flex-col items-center justify-center border-2 border-dashed border-primary cursor-pointer" onclick="showToast('Membuka kamera...', 'photo_camera')">
+            <div class="absolute inset-x-8 top-1/2 h-0.5 bg-primary shadow-[0_0_12px_#0f5238] animate-bounce"></div>
+            <span class="text-white font-label-sm">Ketuk untuk mengambil foto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Profile Modal -->
+      <div id="modal-edit-profile" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl w-full max-w-md p-space-md shadow-2xl space-y-space-md">
+          <div class="flex items-center justify-between pb-2">
+            <h4 class="font-headline-md text-headline-md text-on-surface">Edit Profil</h4>
+            <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center" onclick="closeModal('modal-edit-profile')">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          <div class="space-y-3">
+            <input type="text" class="w-full h-12 bg-surface-container-low rounded-lg px-3" value="Amaq Rusli">
+            <input type="text" class="w-full h-12 bg-surface-container-low rounded-lg px-3" value="Desa Puyung">
+            <button class="w-full h-12 rounded-lg bg-primary text-on-primary font-bold" onclick="saveAction('modal-edit-profile', 'Profil diperbarui')">Simpan Perubahan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logout Modal -->
+      <div id="modal-logout" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-surface-container-lowest rounded-2xl w-full max-w-xs p-6 text-center space-y-4">
+          <div class="w-14 h-14 mx-auto rounded-full bg-error-container text-error flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px]">warning</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md text-on-surface">Keluar Aplikasi?</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <button class="h-11 rounded-xl bg-surface-container font-label-md" onclick="closeModal('modal-logout')">Batal</button>
+            <button class="h-11 rounded-xl bg-error text-on-error font-label-md font-bold" onclick="logoutAction()">Keluar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Toast -->
+      <div id="global-toast" class="fixed top-20 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full font-label-sm text-label-sm flex items-center space-x-2 shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-[110]">
+        <span class="material-symbols-outlined text-[18px] text-inverse-primary" id="toast-icon">check_circle</span>
+        <span id="toast-text">Berhasil</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // --- 1. Splash Screen Logic ---
+    function initSplash() {
+      const splash = document.getElementById('screen-splash');
+      const mainApp = document.getElementById('screen-main-app');
+      
+      // Simulate loading progress
+      let step = 0;
+      const statusEl = document.getElementById('sync-status');
+      const percentEl = document.getElementById('sync-percent');
+      const progressEl = document.getElementById('progress-indicator');
+      
+      const interval = setInterval(() => {
+        step++;
+        const pct = Math.min(45 + step * 25, 100);
+        if (progressEl) progressEl.style.width = pct + '%';
+        if (percentEl) percentEl.textContent = pct + '%';
+        
+        if (pct >= 100) {
+          clearInterval(interval);
+          if (statusEl) statusEl.textContent = "Sistem siap digunakan!";
+          document.getElementById('btn-enter').classList.add('animate-pulse');
+        }
+      }, 500);
+    }
+
+    function enterApp() {
+      const btn = document.getElementById('btn-enter-text');
+      btn.textContent = "Membuka Dashboard...";
+      setTimeout(() => {
+        document.getElementById('screen-splash').classList.add('opacity-0');
+        setTimeout(() => {
+          document.getElementById('screen-splash').style.display = 'none';
+          document.getElementById('screen-main-app').classList.remove('hidden');
+          switchNavTab('beranda'); // Ensure beranda is active
+        }, 500);
+      }, 300);
+    }
+
+    // --- 2. Navigation Logic ---
+    function switchNavTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.remove('active');
+        el.style.display = 'none';
+      });
+      
+      // Show target
+      const target = document.getElementById('tab-' + tabId);
+      if(target) {
+        target.style.display = 'flex';
+        setTimeout(() => target.classList.add('active'), 10); // trigger css transition
+      }
+
+      // Update Nav Buttons
+      document.querySelectorAll('#bottom-navbar button').forEach(btn => {
+        btn.classList.remove('text-primary');
+        btn.classList.add('text-on-surface-variant');
+        const pill = btn.querySelector('.nav-pill');
+        if(pill) pill.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+      });
+
+      const activeBtn = document.getElementById('nav-btn-' + tabId);
+      if(activeBtn) {
+        activeBtn.classList.remove('text-on-surface-variant');
+        activeBtn.classList.add('text-primary');
+        const pill = activeBtn.querySelector('.nav-pill');
+        if(pill) pill.classList.add('bg-secondary-container', 'text-on-secondary-container');
+      }
+
+      // Update Header Title
+      const titles = {
+        'beranda': 'Beranda',
+        'lahan-dan-tanah': 'Manajemen Lahan',
+        'rekomendasi-cuaca': 'Info Cuaca & Musim',
+        'finansial-tani': 'Finansial & Usaha',
+        'profil': 'Profil Petani'
+      };
+      document.getElementById('header-page-title').innerText = titles[tabId] || 'Lombok Clima-Farm';
+      
+      // Scroll to top
+      document.querySelector('main').scrollTo(0,0);
+    }
+
+    // --- 3. Lahan Logic ---
+    function switchField(fieldId) {
+      const btnA = document.getElementById('btn-petak-a');
+      const btnB = document.getElementById('btn-petak-b');
+      const title = document.getElementById('field-title');
+      const scoreRing = document.getElementById('score-ring');
+      const scoreVal = document.getElementById('score-val');
+      
+      const activeClass = "flex-1 py-2.5 px-3 rounded-lg bg-surface-container-lowest text-primary shadow-sm flex items-center justify-center gap-1.5 transition-all duration-200";
+      const inactiveClass = "flex-1 py-2.5 px-3 rounded-lg text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5 transition-all duration-200";
+
+      if (fieldId === 'a') {
+        btnA.className = activeClass;
+        btnB.className = inactiveClass;
+        title.innerText = "Kondisi Kesuburan Tanah (Petak A)";
+        scoreVal.innerText = "86";
+        scoreRing.style.strokeDashoffset = "26.4";
+        document.getElementById('val-ph').innerText = "6.4";
+        document.getElementById('bar-ph').style.width = "64%";
+        showToast("Beralih ke Petak A (Padi Organik)", "nature");
+      } else {
+        btnB.className = activeClass;
+        btnA.className = inactiveClass;
+        title.innerText = "Kondisi Kesuburan Tanah (Petak B)";
+        scoreVal.innerText = "72";
+        scoreRing.style.strokeDashoffset = "52.7";
+        document.getElementById('val-ph').innerText = "5.8";
+        document.getElementById('bar-ph').style.width = "58%";
+        showToast("Beralih ke Petak B (Bawang Putih)", "terrain");
+      }
+    }
+
+    // --- 4. Finansial Logic ---
+    function updateSimulation() {
+      const slider = document.getElementById('grain-slider');
+      const priceDisplay = document.getElementById('price-display');
+      const profitDisplay = document.getElementById('simulated-profit');
+      const statusDisplay = document.getElementById('simulated-status');
+      
+      const price = parseInt(slider.value, 10);
+      priceDisplay.textContent = 'Rp ' + price.toLocaleString('id-ID') + ' /kg';
+      
+      const BASE_PROD = 4500; // 4.5 ton
+      const FIXED_COST = 8750000;
+      const profit = (BASE_PROD * price) - FIXED_COST;
+      
+      profitDisplay.textContent = (profit >= 0 ? '+' : '') + 'Rp ' + profit.toLocaleString('id-ID');
+      
+      if (profit > 10000000) {
+        statusDisplay.innerHTML = '<span class="material-symbols-outlined text-[14px]">verified_user</span> Sangat Aman';
+        statusDisplay.className = 'bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold flex items-center gap-1';
+        profitDisplay.className = 'font-headline-lg-mobile font-extrabold text-primary';
+      } else if (profit >= 0) {
+        statusDisplay.innerHTML = '<span class="material-symbols-outlined text-[14px]">warning</span> Waspada';
+        statusDisplay.className = 'bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold flex items-center gap-1';
+        profitDisplay.className = 'font-headline-lg-mobile font-extrabold text-tertiary';
+      } else {
+        statusDisplay.innerHTML = '<span class="material-symbols-outlined text-[14px]">error</span> Rugi';
+        statusDisplay.className = 'bg-error-container text-on-error-container px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold flex items-center gap-1';
+        profitDisplay.className = 'font-headline-lg-mobile font-extrabold text-error';
+      }
+    }
+
+    // --- 5. Modal & Toast Utility ---
+    function openModal(id) {
+      const m = document.getElementById(id);
+      if(m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+    }
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if(m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    }
+    function saveAction(modalId, msg) {
+      closeModal(modalId);
+      showToast(msg);
+    }
+    function logoutAction() {
+      closeModal('modal-logout');
+      showToast("Berhasil keluar...", "logout");
+      setTimeout(() => location.reload(), 1000);
+    }
+    
+    let toastTimer;
+    function showToast(msg, icon = 'check_circle') {
+      clearTimeout(toastTimer);
+      const toast = document.getElementById('global-toast');
+      document.getElementById('toast-text').innerText = msg;
+      document.getElementById('toast-icon').innerText = icon;
+      
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // Init
+    window.onload = () => {
+      initSplash();
+    };
+  </script>
+</body>
+</html>
